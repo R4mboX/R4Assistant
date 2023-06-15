@@ -92,6 +92,6 @@ Feel free to troubleshoot any issues you may encounter. You can also seek help i
 * Replace the confirmation sound "Yes?" with a .wav sound file using AudioController.Play("Path/To/File.wav")
 * Implement your Smart-Home script. Refer to Libraries/SmartHome for an example using Broadlink Devices (install with sudo pip3 install broadlink)
 * If you prefer using a different AI (possibly something running locally), create a new module at Libraries/AI/ and import it in R4Master.py instead of AI_OpenAI. Make sure to provide a DoPrompt(UserMessage): function that returns a Response String.
-* To Customize the Personality of your new Assistant, look into the AI/Config-Folder.<br>
+* To Customize the Personality of your new Assistant, look into the /AI/Config-Folder.<br>
 
 Enjoy using R4Assistant!
