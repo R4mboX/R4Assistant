@@ -4,6 +4,13 @@ It's an Modular Approach, so it's highly customizable.<br>
 I kept everything as simple as possible, so anyone can pick it up and make modifications.<br>
 I don't plan to update this repository. But we will see what happens.<br>
 
+Features: <br>
+PicoVoice for WakeWord and Speech Recognition <br>
+Pyttsx3 for Text-To-Speech <br>
+OpenAI for AI Responses <br>
+
+It's easy to change each module, if you prefer using Whisper, oobabooga, etc. instead. <br>
+
 Hardware Requirements:<br>
   • Raspberry Pi 4. 3B should work too, but 4 is recommended for performance / temperature issues.<br>
   • Raspberry OS (64-Bit)<br>
