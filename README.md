@@ -50,6 +50,9 @@ The way PicoVoice works is, you personalized models on their website. You can fi
 If you run into Problems, look at the QuickStart Guide: <br>
   https://picovoice.ai/docs/quick-start/porcupine-python/<br>
   https://picovoice.ai/docs/quick-start/leopard-python/  <br>
+  
+Get your OpenAI API Key.<br>
+https://openai.com/blog/openai-api<br>
 
 Now let's look at the Code. <br>
 Clone or Place this Repository on your Raspberry.<br>
