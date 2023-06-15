@@ -55,6 +55,7 @@ In case you encounter any issues, refer to the QuickStart Guide:
 Get your OpenAI API Key at https://openai.com/blog/openai-api.
 
 Clone this repository on your Raspberry Pi. The main script to start/run is **R4Master.py**. <br>
+Open */R4Master.py*!<br>
 Customize the path as follows: Path_App = "/home/pi/Software/R4Assistant/". <br>
 
 Upon booting up, the script will continuously execute the Update() function which performs the following tasks:
