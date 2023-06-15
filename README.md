@@ -41,7 +41,7 @@ Obtain your API Keys and utilize two PicoVoice components:
 * Leopard for Speech Recognition. <br>
 PicoVoice allows you to personalize models on their website. This means you can easily fine-tune the WakeWord model for efficient local WakeWord recognition on a Raspberry Pi.
 
-After creating your models, download the Keyword File for Porcupine and Model for Leopard from the following links: <br>
+After customizing your models, download the Keyword File for Porcupine and Model for Leopard from the following links: <br>
 * https://console.picovoice.ai/ppn
 * https://console.picovoice.ai/cat <br>
  
