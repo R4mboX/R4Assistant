@@ -5,7 +5,8 @@ This repository may not be frequently updated, but the future is unpredictable.
 ## Features
 * PicoVoice for WakeWord and Speech Recognition
 * Pyttsx3 for Text-To-Speech
-* OpenAI for AI Responses <br>
+* OpenAI for AI Responses
+* Chatbot with Personality (customizable) and stored Conversation-History <br>
 
 It's a easy to modify each module to use alternatives like Whisper, oobabooga, etc., based on your preference.
 
