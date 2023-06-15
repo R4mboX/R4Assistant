@@ -1,103 +1,94 @@
 # R4Assistant
-Amazon Echo Alternative based on Raspberry PI and Python Libraries.<br>
-It's an Modular Approach, so it's highly customizable.<br>
-I kept everything as simple as possible, so anyone can pick it up and make modifications.<br>
-I don't plan to update this repository. But we will see what happens.<br>
+An Amazon Echo alternative based on Raspberry Pi and Python libraries, R4Assistant provides a modular approach, allowing for high customization. With simplicity at its core, anyone can easily modify this project according to their needs.<br>
+This repository may not be frequently updated, but the future is unpredictable.
 
-Features: <br>
-PicoVoice for WakeWord and Speech Recognition <br>
-Pyttsx3 for Text-To-Speech <br>
-OpenAI for AI Responses <br>
+## Features
+* PicoVoice for WakeWord and Speech Recognition
+* Pyttsx3 for Text-To-Speech
+* OpenAI for AI Responses <br>
 
-It's easy to change each module, if you prefer using Whisper, oobabooga, etc. instead. <br>
+It's a easy to modify each module to use alternatives like Whisper, oobabooga, etc., based on your preference.
 
-Hardware Requirements:<br>
-  • Raspberry Pi 4. 3B should work too, but 4 is recommended for performance / temperature issues.<br>
-  • Raspberry OS (64-Bit)<br>
-  • Some fancy Raspberry Case with Cooling. You will have Wakeword Detection running locally 24/7.<br>
-    I use the SunFounder Pironman Case, which does a good job and keeps everything at around 40-50°C.<br>
-  • USB Speakers. Keep it simple.<br>
-  • USB Microphone. Don't keep it simple.<br>
+## Hardware Requirements
+* Raspberry Pi 4 (3B could work, but 4 is recommended for better performance and temperature management)
+* Raspberry OS (64-Bit)
+* A well-cooled Raspberry Pi case (since WakeWord detection runs locally 24/7).
+  - I use the SunFounder Pironman Case, which keeps the temperature around 40-50°C.
+* Simple USB Speakers
+* High-quality USB Microphone
 
-Installation:<br>
-Install the Requirements:<br>
-  sudo pip3 install openai<br>
-  sudo pip3 install pvporcupine<br>
-  sudo pip3 install pvleopard<br>
-  sudo apt-get install python3-pyaudio<br>
-  sudo pip3 install pvrecorder<br>
-  sudo pip3 install pyttsx3<br>
-  sudo pip3 install sounddevice<br>
-  sudo pip3 install soundfile<br>
-  sudo apt-get install espeak<br>
-  sudo apt-get install libespeak-ng1<br>
-  sudo apt-get install libasound2-dev<br>
-  sudo pip3 install simpleaudio<br>
+## Installation
+Install the necessary libraries:
 
-IF you want to use PicoVoice like me, sign up for a free account: <br>
-https://picovoice.ai/<br>
+* sudo pip3 install openai
+* sudo pip3 install pvporcupine
+* sudo pip3 install pvleopard
+* sudo apt-get install python3-pyaudio
+* sudo pip3 install pvrecorder
+* sudo pip3 install pyttsx3
+* sudo pip3 install sounddevice
+* sudo pip3 install soundfile
+* sudo apt-get install espeak
+* sudo apt-get install libespeak-ng1
+* sudo apt-get install libasound2-dev
+* sudo pip3 install simpleaudio
 
-! Get your API Keys. !<br>
-We will use 2 PicoVoice Components. <br>
-  Porcupine for Wakeword Detection. Your Assistant will be in Wakeword Detection Mode most of the time. Standard Bot-Name I also use as Wakeword is "Astra".<br>
-  Leopard for Speech Recognition.<br>
-The way PicoVoice works is, you personalized models on their website. You can finetune the Wakeword Model on their Website easily, so you get a very efficient way for local WakeWord Recognition on a Raspberry.<br>
-! Create and Download Keyword-File for Porcupine and Model for Leopard !<br>
-  https://console.picovoice.ai/ppn<br>
-  https://console.picovoice.ai/cat<br>
-! Download a Porcupine Model here: <br>
-  https://github.com/Picovoice/porcupine/tree/master/lib/common<br>
-If you run into Problems, look at the QuickStart Guide: <br>
-  https://picovoice.ai/docs/quick-start/porcupine-python/<br>
-  https://picovoice.ai/docs/quick-start/leopard-python/  <br>
-  
-Get your OpenAI API Key.<br>
-https://openai.com/blog/openai-api<br>
+For using PicoVoice as I do, sign up for a free account at https://picovoice.ai/ <br>
+Obtain your API Keys and utilize two PicoVoice components:
 
-Now let's look at the Code. <br>
-Clone or Place this Repository on your Raspberry.<br>
+* Porcupine for WakeWord detection. The Assistant stays in WakeWord detection mode most of the time. 
+  - In Standard-Configuration I use the bot name "Astra" as the WakeWord.
+* Leopard for Speech Recognition. <br>
+PicoVoice allows you to personalize models on their website. This means you can easily fine-tune the WakeWord model for efficient local WakeWord recognition on a Raspberry Pi.
 
-The Mainscript to start / run is R4Master.py<br>
-  ! Customize the Path: Path_App = "/home/pi/Software/R4Assistant/" !<br>
-  After booting up, the Script will cycle through the Update() Function. What it does:<br>
-    1. Wait for a recognized Speech-Command<br>
-    2. Analyze the Command and get a Response (from OpenAI or SmartHomeController<br>
-    3. Pass the Response to the AudioController (TTS-Engine)<br>
-    
-Open Libraries/SpeechRecognizer/SR_PicoVoice.py<br>
-  ! Customize "porcupine = ..." and "leopard = ..." !<br>
-    Add your PicoVoice API / Access Key.<br>
-    Customize the Paths to Model Files.<br>
-  Scroll down and look for that line: transcript, words = leopard.process_file('/home/pi/Software/R4Assistant/Audio/LastRecord.wav')<br>
-    Make sure that Path is correct.<br>
-    
-Open Libraries/AudioController/AC_Light.py<br>
-  Make sure the Path here is right: data, fs = sf.read("/home/pi/Software/R4Home/Audio/"+ TPath)<br>
-  You can change TTS Language here: engine.setProperty('voice', 'en')<br>
-  
-Open Libraries/AI/AI_OpenAI.py<br>
-  Enter your API Key. Check the Path.<br>
-  You can Customize your Bots Name by Changing his Name in this File (Astra) and by Editing everything in Libraries/AI/Config/<br>
-  
-All right. That's it. <br>
-Run R4Master.py<br>
-Following will happen:<br>
-  It will wait for WakeWord (Your customized Porcupine WakeWord)<br>
-  After it heared the Wakeword it will say "Yes?" and then record 5 Seconds of Audio.<br>
-  It will then Analyze the Audio.<br>
-  It will either execute a SmartHome Command (if you implemented that) or lets ChatGPT create a Response. <br>
-  It will then get back into WakeWord Mode.<br>
-  
-If you run into any Problems feel free to fix them xD<br>
-You might ask for help in the Discussions Section. <br>
-Currently there are problems running the Software as a Service. Audio Hardware isnt detected correctly that way. <br>
-So you have to manually start that script after booting up your raspberry.<br>
-  python3 R4Master.py<br>
+After creating your models, download the Keyword File for Porcupine and Model for Leopard from the following links: <br>
+* https://console.picovoice.ai/ppn
+* https://console.picovoice.ai/cat <br>
+ 
+Download a Porcupine Model here:
+* https://github.com/Picovoice/porcupine/tree/master/lib/common <br>
 
-Things I recommend to do: <br>
-Replace the Confirmation Sound: "Yes?". Use a Sound File (.wav) and AudioController.Play("Path/To/File.wav")<br>
-Create and implement your Smart-Home Script. Look at Libraries/SmartHome for an Example with Broadlink Devices (sudo pip3 install broadlink)<br>
-If you want to use a Different AI (maybe something running locally) just create a new Module at Libraries/AI/ and import it in R4Master.py instead of AI_OpenAI.<br>
-  Make sure to provide a DoPrompt(UserMessage): Function that returns a Response String.<br>
+In case you encounter any issues, refer to the QuickStart Guide:
+* https://picovoice.ai/docs/quick-start/porcupine-python/
+* https://picovoice.ai/docs/quick-start/leopard-python/ <br>
 
-Have fun!
+Get your OpenAI API Key at https://openai.com/blog/openai-api.
+
+Clone this repository on your Raspberry Pi. The main script to start/run is **R4Master.py**. <br>
+Customize the path as follows: Path_App = "/home/pi/Software/R4Assistant/". <br>
+
+Upon booting up, the script will continuously execute the Update() function which performs the following tasks:
+* Waits for a recognized speech command
+* Analyzes the command and gets a response (from OpenAI or SmartHomeController)
+* Passes the response to the AudioController (TTS-Engine) <br>
+
+Open *Libraries/SpeechRecognizer/SR_PicoVoice.py*. <br>
+Customize "porcupine = ..." and "leopard = ..." by adding your PicoVoice API / Access Key and adjusting the paths to the model files. <br>
+Ensure that the path in the line: <br>
+transcript, words = leopard.process_file('/home/pi/Software/R4Assistant/Audio/LastRecord.wav') <br>
+is correct.
+
+Open *Libraries/AudioController/AC_Light.py*. <br>
+Verify the path here: <br>
+data, fs = sf.read("/home/pi/Software/R4Home/Audio/"+ TPath). <br>
+You can also change the TTS language here with: engine.setProperty('voice', 'en').<br>
+
+Open *Libraries/AI/AI_OpenAI.py*, enter your API Key, and check the path. <br>
+Customize your bot's name by changing it in this file (Astra) and by editing everything in *Libraries/AI/Config/*. <br>
+
+That's it! Now, run python3 **R4Master.py**. The following steps will occur: <br>
+
+* The assistant waits for the WakeWord (your customized Porcupine WakeWord).
+* After recognizing the WakeWord, it will respond with "Yes?" and then record 5 seconds of audio.
+* The audio is then analyzed.
+* It will either execute a SmartHome command (if implemented) or lets ChatGPT generate a response.
+* The system will then revert to WakeWord Mode. <br>
+
+Feel free to troubleshoot any issues you may encounter. You can also seek help in the Discussions section. Currently, there are problems running the software as a service as the audio hardware is not detected correctly in that mode. Thus, you need to manually start the script after booting up your Raspberry Pi.<br>
+
+## Recommended Actions:
+* Replace the confirmation sound "Yes?" with a .wav sound file using AudioController.Play("Path/To/File.wav")
+* Implement your Smart-Home script. Refer to Libraries/SmartHome for an example using Broadlink Devices (install with sudo pip3 install broadlink)
+* If you prefer using a different AI (possibly something running locally), create a new module at Libraries/AI/ and import it in R4Master.py instead of AI_OpenAI. Make sure to provide a DoPrompt(UserMessage): function that returns a Response String.<br>
+
+Enjoy using R4Assistant!
