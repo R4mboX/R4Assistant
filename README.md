@@ -7,7 +7,7 @@ A Speech Assistant based on Raspberry Pi and Python libraries. R4Assistant provi
 * OpenAI for AI Responses
 * Chatbot with Personality (customizable) and stored Conversation-History <br>
 
-It's easy to modify each module to use alternatives like Whisper, oobabooga, etc., based on your preference.
+It's easy to modify each module or to use alternatives like Whisper, oobabooga, etc., based on your preference.
 
 ## Hardware Requirements
 * Raspberry Pi 4 (3B could work, but 4 is recommended for better performance and temperature management)
