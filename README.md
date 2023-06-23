@@ -69,7 +69,7 @@ import Libraries.SmartHome.SC_Dummy as SmartHomeController
 
 The Dummy Modules are good for testing, since they provide very basic functionality. <br>
 
-You will now have to set up PicoVoice -> [https://github.com/R4mboX/R4Assistant/wiki/PicoVoice-Setup](Click here for Tutorial) <br>
+You will now have to set up PicoVoice -> https://github.com/R4mboX/R4Assistant/wiki/PicoVoice-Setup <br>
 And add your OpenAI API Key at Libraries/AI/AI_OpenAI.py <br>
 
 That's it! Now, run python3 **R4Master.py**. The following steps will occur: <br>
