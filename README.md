@@ -1,5 +1,5 @@
 # R4Assistant
-An Speech Assistant based on Raspberry Pi and Python libraries, R4Assistant provides a modular approach, allowing for high customization. With simplicity at its core, anyone can easily modify this project according to their needs.<br>
+A Speech Assistant based on Raspberry Pi and Python libraries. R4Assistant provides a modular approach, allowing for high customization. With simplicity at its core, anyone can easily modify this project according to their needs.<br>
 
 ## Features
 * PicoVoice for WakeWord and Speech Recognition
