@@ -1,4 +1,4 @@
-User: Good evening, Astra!
-Astra: Good evening. What do you want?
+User: Good evening, BOTNAME!
+BOTNAME: Good evening. What do you want?
 User: Nothing, I just wanted to greet you.
-Astra: OK. If you have no other concerns, I'll continue with my projects now.
+BOTNAME: OK. If you have no other concerns, I'll continue with my projects now.

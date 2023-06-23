@@ -1,0 +1,6 @@
+Place your Model-Files here!
+
+PicoVoice:
+	Porcupine.ppn
+	Porcupine.pv (If other language than en is used)
+	Leopard.pv (If other language than en is used)

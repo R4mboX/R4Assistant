@@ -1,32 +1,24 @@
-#-Imports---------------------------------------
+#-Imports
 import pvporcupine
 import pvleopard
 import pvrecorder
 import pyaudio
 import struct
 import wave
+#-Settings
+PVAccessKey = "Enter your PicoVoice Access Key"
+Path_App = None
 #-Instances-------------------------------------
-porcupine = pvporcupine.create(
-        access_key='ENTER YOUR PICOVOICE ACCESS KEY',
-        keyword_paths=['/home/pi/Software/R4Home/Models/PicoVoice/Astra.ppn'],
-        model_path='/home/pi/Software/R4Home/Models/PicoVoice/porcupine_params_de.pv')
-leopard = pvleopard.create(
-    access_key='ENTER YOUR PICOVOICE ACCESS KEY',
-    model_path='/home/pi/Software/R4Home/Models/PicoVoice/Leo.pv')
-
+Porcupine = None
+Leopard = None
 pa = pyaudio.PyAudio()
-audio_stream = pa.open(
-    rate=porcupine.sample_rate,
-    channels=1,
-    format=pyaudio.paInt16,
-    input=True,
-    frames_per_buffer=porcupine.frame_length)  
+PyAudioStream = None
 #-Settings--------------------------------------
 CHANNELS = 1
-RATE = porcupine.sample_rate
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
 RECORD_TIME = 6
+
 #-Functions-------------------------------------
 def GetCommand(AudioController):
     WaitForWake()
@@ -37,9 +29,9 @@ def GetCommand(AudioController):
 def WaitForWake():
     StartStream()
     while True:
-        audio_frame = audio_stream.read(porcupine.frame_length)
-        audio_frame = struct.unpack_from("h" * porcupine.frame_length, audio_frame)
-        keyword_index = porcupine.process(audio_frame)
+        audio_frame = PyAudioStream.read(Porcupine.frame_length)
+        audio_frame = struct.unpack_from("h" * Porcupine.frame_length, audio_frame)
+        keyword_index = Porcupine.process(audio_frame)
         if keyword_index == 0:
             StopStream()
             break;
@@ -47,32 +39,62 @@ def WaitForWake():
 def TranscribeVoice():
     StartStream()
     frames = []
-    for i in range(0, int(RATE / CHUNK * RECORD_TIME)):
-        data = audio_stream.read(CHUNK)
+    for i in range(0, int(Porcupine.sample_rate / CHUNK * RECORD_TIME)):
+        data = PyAudioStream.read(CHUNK)
         frames.append(data)
         
-    wf = wave.open("Audio/LastRecord.wav", 'wb')
+    wf = wave.open(Path_App + "Audio/LastRecord.wav", 'wb')
     wf.setnchannels(CHANNELS)
     wf.setsampwidth(pa.get_sample_size(FORMAT))
-    wf.setframerate(RATE)
+    wf.setframerate(Porcupine.sample_rate)
     wf.writeframes(b''.join(frames))
     wf.close()
     
-    transcript, words = leopard.process_file('/home/pi/Software/R4Assistant/Audio/LastRecord.wav')
+    transcript, words = Leopard.process_file(Path_App + 'Audio/LastRecord.wav')
     wordarray = transcript.split()
     StopStream()
     return wordarray
 
 def StartStream():
-    global audio_stream
+    global PyAudioStream
     
-    audio_stream = pa.open(
-        rate=porcupine.sample_rate,
+    PyAudioStream = pa.open(
+        rate=Porcupine.sample_rate,
         channels=1,
         format=pyaudio.paInt16,
         input=True,
-        frames_per_buffer=porcupine.frame_length)
+        frames_per_buffer=Porcupine.frame_length)
 
 def StopStream():
-    global audio_stream
-    audio_stream.close()
+    global PyAudioStream
+    PyAudioStream.close()
+    
+def Startup_Check():
+    if PVAccessKey == "Enter your PicoVoice Access Key":
+        print("Enter your Access Key at SR_PicoVoice.py and make sure you downloaded and placed the model files.")
+        exit()
+        
+def Init(TPath):
+    global Path_App, Porcupine, Leopard, PyAudioStream
+    Path_App = TPath + "Libraries/SpeechRecognizer/"
+    
+    Porcupine = pvporcupine.create(
+        access_key=PVAccessKey,
+        keyword_paths=[Path_App + 'Models/Porcupine.ppn'])
+        #model_path=Path_App + 'Models/Porcupine.pv') #INCLUDE IF USING OTHER LANGUAGE THAN en
+    
+    Leopard = pvleopard.create(
+        access_key=PVAccessKey)
+        #model_path=Path_App + 'Models/Leopard.pv') #INCLUDE IF USING OTHER LANGUAGE THAN en
+
+    PyAudioStream = pa.open(
+        rate=Porcupine.sample_rate,
+        channels=1,
+        format=pyaudio.paInt16,
+        input=True,
+        frames_per_buffer=Porcupine.frame_length)
+    
+    print("SR_PicoVoice initialized")
+    
+#-Start
+Startup_Check()

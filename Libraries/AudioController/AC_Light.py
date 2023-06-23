@@ -1,16 +1,26 @@
-#-Bibliotheken importieren----------------------
+#-Import Libraries
 import pyttsx3
 import sounddevice as sd
 import soundfile as sf
-#-Say--------------------------------------------
-def Say(SText):
-    engine.say(SText)
+
+#-Settings
+Path_App = None
+
+#-Functions
+def Say(TText):
+    engine.say(TText)
     engine.runAndWait()
-#-Play-------------------------------------------
-def Play(TPath):
-    data, fs = sf.read("/home/pi/Software/R4Home/Audio/"+ TPath)
+
+def Play(TFile):
+    data, fs = sf.read(Path_App + TFile)
     sd.play(data, fs)
     sd.wait()
+    
+def Init(TPath):
+    global Path_App
+    Path_App = TPath + "Audio/"
+    print("AC_Light initialized")
+    
 #-Start------------------------------------------
 engine = pyttsx3.init()
 #voices = engine.getProperty('voices')

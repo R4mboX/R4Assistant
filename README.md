@@ -1,6 +1,5 @@
 # R4Assistant
-An Amazon Echo alternative based on Raspberry Pi and Python libraries, R4Assistant provides a modular approach, allowing for high customization. With simplicity at its core, anyone can easily modify this project according to their needs.<br>
-This repository may not be frequently updated, but the future is unpredictable.
+An Speech Assistant based on Raspberry Pi and Python libraries, R4Assistant provides a modular approach, allowing for high customization. With simplicity at its core, anyone can easily modify this project according to their needs.<br>
 
 ## Features
 * PicoVoice for WakeWord and Speech Recognition
@@ -8,7 +7,7 @@ This repository may not be frequently updated, but the future is unpredictable.
 * OpenAI for AI Responses
 * Chatbot with Personality (customizable) and stored Conversation-History <br>
 
-It's a easy to modify each module to use alternatives like Whisper, oobabooga, etc., based on your preference.
+It's easy to modify each module to use alternatives like Whisper, oobabooga, etc., based on your preference.
 
 ## Hardware Requirements
 * Raspberry Pi 4 (3B could work, but 4 is recommended for better performance and temperature management)
@@ -20,63 +19,58 @@ It's a easy to modify each module to use alternatives like Whisper, oobabooga, e
 
 ## Installation
 Install the necessary libraries:
+* sudo apt-get install python3-pyaudio espeak libespeak-ng1 libasound2-dev
+* sudo pip3 install openai pvporcupine pvleopard pvrecorder pyttsx3 sounddevice soundfile simpleaudio <br>
 
-* sudo pip3 install openai
-* sudo pip3 install pvporcupine
-* sudo pip3 install pvleopard
-* sudo apt-get install python3-pyaudio
-* sudo pip3 install pvrecorder
-* sudo pip3 install pyttsx3
-* sudo pip3 install sounddevice
-* sudo pip3 install soundfile
-* sudo apt-get install espeak
-* sudo apt-get install libespeak-ng1
-* sudo apt-get install libasound2-dev
-* sudo pip3 install simpleaudio
+Clone this repository on your Raspberry Pi.<br>
+Open/Edit R4Master.py <br>
+Make sure "Path_App" contains the correct Folder. <br>
 
-For using PicoVoice as I do, sign up for a free account at https://picovoice.ai/ <br>
-Obtain your API Keys and utilize two PicoVoice components:
+Now look at the Modules-Section. <br>
+By Standard only Dummy Modules are active: <br>
+```
+#-SpeechRecognizer
+import Libraries.SpeechRecognizer.SR_Dummy as SpeechRecognizer
+#import Libraries.SpeechRecognizer.SR_PicoVoice as SpeechRecognizer
 
-* Porcupine for WakeWord detection. The Assistant stays in WakeWord detection mode most of the time. 
-  - In Standard-Configuration I use the bot name "Astra" as the WakeWord.
-* Leopard for Speech Recognition. <br>
-PicoVoice allows you to personalize models on their website. This means you can easily fine-tune the WakeWord model for efficient local WakeWord recognition on a Raspberry Pi.
+#-AudioController
+import Libraries.AudioController.AC_Dummy as AudioController
+#import Libraries.AudioController.AC_Light as AudioController
 
-Customize and download the Keyword File for Porcupine and Model for Leopard from the following links: <br>
-* https://console.picovoice.ai/ppn
-* https://console.picovoice.ai/cat <br>
- 
-Download a Porcupine Model here:
-* https://github.com/Picovoice/porcupine/tree/master/lib/common <br>
+#-AIController
+import Libraries.AI.AI_Dummy as AIController
+#import Libraries.AI.AI_OpenAI as AIController
 
-In case you encounter any issues, refer to the QuickStart Guide:
-* https://picovoice.ai/docs/quick-start/porcupine-python/
-* https://picovoice.ai/docs/quick-start/leopard-python/ <br>
+#-SmartHomeController
+import Libraries.SmartHome.SC_Dummy as SmartHomeController
+#import Libraries.SmartHome.SC_BroadLink as SmartHomeController <br>
+```
 
-Get your OpenAI API Key at https://openai.com/blog/openai-api.
+Currently using AC_Light, SR_PicoVoice and AI_OpenAI is recommended. <br>
+Change it like that:
 
-Clone this repository on your Raspberry Pi. The main script to start/run is **R4Master.py**. <br><br>
-Open *R4Master.py*<br>
-Customize the path as follows: Path_App = "/home/pi/Software/R4Assistant/". <br>
+```
+#-SpeechRecognizer
+#import Libraries.SpeechRecognizer.SR_Dummy as SpeechRecognizer
+import Libraries.SpeechRecognizer.SR_PicoVoice as SpeechRecognizer
 
-Upon booting up, the script will continuously execute the Update() function which performs the following tasks:
-* Waits for a recognized speech command
-* Analyzes the command and gets a response (from OpenAI or SmartHomeController)
-* Passes the response to the AudioController (TTS-Engine) <br>
+#-AudioController
+#import Libraries.AudioController.AC_Dummy as AudioController
+import Libraries.AudioController.AC_Light as AudioController
 
-Open *Libraries/SpeechRecognizer/SR_PicoVoice.py*. <br>
-Customize "porcupine = ..." and "leopard = ..." by adding your PicoVoice API / Access Key and adjusting the paths to the model files. <br>
-Ensure that the path in the line: <br>
-transcript, words = leopard.process_file('/home/pi/Software/R4Assistant/Audio/LastRecord.wav') <br>
-is correct.
+#-AIController
+#import Libraries.AI.AI_Dummy as AIController
+import Libraries.AI.AI_OpenAI as AIController
 
-Open *Libraries/AudioController/AC_Light.py*. <br>
-Verify the path here: <br>
-data, fs = sf.read("/home/pi/Software/R4Home/Audio/"+ TPath). <br>
-You can also change the TTS language here with: engine.setProperty('voice', 'en').<br>
+#-SmartHomeController
+import Libraries.SmartHome.SC_Dummy as SmartHomeController
+#import Libraries.SmartHome.SC_BroadLink as SmartHomeController
+```
 
-Open *Libraries/AI/AI_OpenAI.py*, enter your API Key, and check the path. <br>
-Customize your bot's name by changing it in this file (Astra) and by editing everything in *Libraries/AI/Config/*. <br>
+The Dummy Modules are good for testing, since they provide very basic functionality. <br>
+
+You will now have to set up PicoVoice -> Click here for Tutorial <br>
+And add your OpenAI API Key at Libraries/AI/AI_OpenAI.py <br>
 
 That's it! Now, run python3 **R4Master.py**. The following steps will occur: <br>
 
